@@ -1,12 +1,12 @@
 //Below we set up the entities for the crowdfunder app
-
-// An app user is identified by their public key
+// A dApp user is identified by their public key
 entity user {
 	key pubkey;
 	key username: text;
 }
 
-//A project is identified by its name and the user who created it. The user can choose a category for the project, write a description, set a fundraising goal, a start and end date. The app displays the amount raised so far as well as the number of contributions.
+
+// A project is identified by its name and the user who created it. The user can choose a category for the project, write a description, set a fundraising goal, a start and end date. The app displays the amount raised so far as well as the number of contributions.
 entity project {
 	key name;
 	admin: user;
@@ -19,6 +19,8 @@ entity project {
 	key numcont: integer; 
 }
 
+
+// This entity stores the pledges that users make, the amount of each pledge, and to which project the pledges are assigned to.
 entity pledges {
 	donor: user;
 	key project: integer;
@@ -30,14 +32,12 @@ entity pledges {
 
 ///operations: init, create user, create project, update description, create fundraising goal, set startedate, setenddate, query amountraised, print if goal raised = congradualtions!, query numofcontributions
 
-//1 Create user
-
-// initialize module
-
+// Here we need to initialize the module
 operation init (founder_pubkey: pubkey) {
 	require( (user@*{} limit 1) .size() == 0 );
 	val founder = create user (founder_pubkey, "admin");
 }
+
 
 // register a new user
 
@@ -53,9 +53,13 @@ operation register_user (
 }
 
 
-// Create a new project
+// Registered users can create new crowdfunder projects.
+operation create_project ( admin_pubkey: pubkey, name) {
+	require( is_signer(admin_pubkey) );
+	val admin_usr = user@{admin_pubkey};
+}
 
-
+// Assign project category
 
 // create/update description
 
@@ -65,14 +69,17 @@ operation register_user (
 
 // set enddate
 
-// query number of contrabutions
+// query number of contributors
 
 // query contributors
 
-// query amountproject raised
+// query amount project raised
 
-// print if goal raised = congradualtions!
+// print if goal achieved = congradualtions!
 
-// query all projects
+// query all projects across crowdfunder dApp
 
-// querry all donaitons
+// query all donations across crowdfunder dApp
+
+
+
