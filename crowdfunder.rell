@@ -1,0 +1,78 @@
+//Below we set up the entities for the crowdfunder app
+
+// An app user is identified by their public key
+entity user {
+	key pubkey;
+	key username: text;
+}
+
+//A project is identified by its name and the user who created it. The user can choose a category for the project, write a description, set a fundraising goal, a start and end date. The app displays the amount raised so far as well as the number of contributions.
+entity project {
+	key name;
+	admin: user;
+	key category: text;
+	mutable description: text;
+	key fundinggoal: integer;
+	key startdate: timestamp;
+	key enddate: timestamp;
+	key amraised: integer;
+	key numcont: integer; 
+}
+
+entity pledges {
+	donor: user;
+	key project: integer;
+	key user: integer;
+	key amount: integer;
+}
+
+
+
+///operations: init, create user, create project, update description, create fundraising goal, set startedate, setenddate, query amountraised, print if goal raised = congradualtions!, query numofcontributions
+
+//1 Create user
+
+// initialize module
+
+operation init (founder_pubkey: pubkey) {
+	require( (user@*{} limit 1) .size() == 0 );
+	val founder = create user (founder_pubkey, "admin");
+}
+
+// register a new user
+
+operation register_user (
+	existing_user_pubkey: pubkey,
+	new_user_pubkey: pubkey,
+	new_user_username: text
+) {
+	require( is_signer(existing_user_pubkey ) );
+	val existing_user = user@{existing_user_pubkey};
+	
+	val new_user = create user (new_user_pubkey, new_user_username);
+}
+
+
+// Create a new project
+
+
+
+// create/update description
+
+// create fundraising goal
+
+// set startdate  
+
+// set enddate
+
+// query number of contrabutions
+
+// query contributors
+
+// query amountproject raised
+
+// print if goal raised = congradualtions!
+
+// query all projects
+
+// querry all donaitons
