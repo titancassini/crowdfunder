@@ -107,12 +107,7 @@ operation set_project_description ( project_name: name, admin_pubkey: pubkey, pr
 }
 
 
-//TODO: query amountraised, print if goal raised = congradualtions!, query numofcontributions
-
-
-// Assign project category
-
-// create/update description
+//TODO List: 
 
 // create fundraising goal
 
@@ -131,6 +126,3 @@ operation set_project_description ( project_name: name, admin_pubkey: pubkey, pr
 // query all projects across crowdfunder dApp
 
 // query all donations across crowdfunder dApp
-
-
-
