@@ -99,6 +99,12 @@ operation set_project_category ( project_name: name, admin_pubkey: pubkey, proje
 }
 	
 
+// Users can set a project description (need to set character limit)
+operation set_project_description ( project_name: name, admin_pubkey: pubkey, project_description: text ) {
+	require( is_signer(admin_pubkey) );
+	val admin_usr = user@{admin_pubkey};
+	create project_description (project_name);
+}
 
 
 //TODO: query amountraised, print if goal raised = congradualtions!, query numofcontributions
