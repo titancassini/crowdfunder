@@ -87,7 +87,7 @@ operation register_user (
 operation create_project ( admin_pubkey: pubkey, project_name: name, category: project_category, description: project_description, fundinggoal: funding_goal, startdate: start_date, enddate: end_date, amraised: amount_raised, numpledge: number_of_pledges) {
 	require( is_signer(admin_pubkey) );
 	val admin_usr = user@{admin_pubkey};
-	create project (user@{admin_pubkey}, project_name); 
+	create project (user@{admin_pubkey}, project_name);
 }
 
 
