@@ -1,4 +1,4 @@
-//Below we set up the entities for the crowdfunder app
+// Below we set up the entities for the crowdfunder app
 // A dApp user is identified by their public key
 entity user {
 	key pubkey;
@@ -84,15 +84,14 @@ operation register_user (
 
 
 // Registered users can create new crowdfunder projects.
-operation create_project ( admin_pubkey: pubkey, project_name: name, category: project_category, description: project_description, fundinggoal: goal, start_date: startdate, end_date: enddate, amraised: amount_raised, number_of_contributors: numcont) {
+operation create_project ( admin_pubkey: pubkey, project_name: name, category: project_category, description: project_description, fundinggoal: funding_goal, startdate: start_date, enddate: end_date, amraised: amount_raised, numpledge: number_of_pledges) {
 	require( is_signer(admin_pubkey) );
 	val admin_usr = user@{admin_pubkey};
-	val project = project(admin_usr, name);
-	create project (project, admin_usr) 
+	create project (user@{admin_pubkey}, project_name); 
 }
 
 
-///operations: create project, query amountraised, print if goal raised = congradualtions!, query numofcontributions
+//operations: create project, query amountraised, print if goal raised = congradualtions!, query numofcontributions
 
 
 // Assign project category
