@@ -84,14 +84,24 @@ operation register_user (
 
 
 // Registered users can create new crowdfunder projects.
-operation create_project ( admin_pubkey: pubkey, project_name: name, category: project_category, description: project_description, fundinggoal: funding_goal, startdate: start_date, enddate: end_date, amraised: amount_raised, numpledge: number_of_pledges) {
+operation create_project ( admin_pubkey: pubkey, project_name: name) {
 	require( is_signer(admin_pubkey) );
 	val admin_usr = user@{admin_pubkey};
 	create project (user@{admin_pubkey}, project_name);
 }
 
 
-//operations: create project, query amountraised, print if goal raised = congradualtions!, query numofcontributions
+// Users can assign a project category (need to set character limit)
+operation set_project_category ( project_name: name, admin_pubkey: pubkey, project_category: text ) {
+	require( is_signer(admin_pubkey) );
+	val admin_usr = user@{admin_pubkey};
+	create project_category (project_name);
+}
+	
+
+
+
+//TODO: query amountraised, print if goal raised = congradualtions!, query numofcontributions
 
 
 // Assign project category
