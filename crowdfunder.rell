@@ -6,19 +6,52 @@ entity user {
 }
 
 
-// A project is identified by its name and the user who created it. The user can choose a category for the project, write a description, set a fundraising goal, a start and end date. The app displays the amount raised so far as well as the number of contributions.
+// A project is identified by its name and the user who created it. 
 entity project {
 	key name;
 	admin: user;
-	key category: text;
-	mutable description: text;
-	key fundinggoal: integer;
-	key startdate: timestamp;
-	key enddate: timestamp;
-	key amraised: integer;
-	key numcont: integer; 
 }
 
+
+// The user can choose a category for the project.
+entity project_category {
+		key category: text;
+}
+
+
+// The user can write a project description (will need character limit).
+entity project_description {
+	mutable description: text;
+}
+
+
+// The user can set a fundraising goal.
+entity funding_goal {
+	key fundinggoal: integer;
+}
+
+
+// The user can also set a start date.
+entity start_date {
+	key startdate: timestamp;
+}
+
+
+//  ...an end date. 
+entity end_date {
+	key enddate: timestamp;
+}
+
+
+// The dApp displays the amount raised.
+entity amount_raised {
+	key amraised: integer;
+}
+
+// The dApp dipslayed the number of pledges.
+entity number_of_pledges {
+	key num_pledges: integer; 
+}
 
 // This entity stores the pledges that users make, the amount of each pledge, and to which project the pledges are assigned to.
 entity pledges {
@@ -29,14 +62,14 @@ entity pledges {
 }
 
 
-// Here we need to initialize the module
+// Here we initialize the module
 operation init (founder_pubkey: pubkey) {
 	require( (user@*{} limit 1) .size() == 0 );
 	val founder = create user (founder_pubkey, "admin");
 }
 
 
-// register a new user
+// Register a new user
 
 operation register_user (
 	existing_user_pubkey: pubkey,
@@ -51,9 +84,11 @@ operation register_user (
 
 
 // Registered users can create new crowdfunder projects.
-operation create_project ( admin_pubkey: pubkey, name) {
+operation create_project ( admin_pubkey: pubkey, project_name: name, category: project_category, description: project_description, fundinggoal: goal, start_date: startdate, end_date: enddate, amraised: amount_raised, number_of_contributors: numcont) {
 	require( is_signer(admin_pubkey) );
 	val admin_usr = user@{admin_pubkey};
+	val project = project(admin_usr, name);
+	create project (project, admin_usr) 
 }
 
 
